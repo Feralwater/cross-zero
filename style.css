@@ -1,9 +1,18 @@
+:root {
+    --cell-size: 100px;
+    --mark-size: 90px;
+}
+
+body {
+    margin: 0;
+}
+
 html {
     background: #cbccc7;
 }
 
 .game-field {
-    margin-top: calc(100vh / 2 - 450px);
+    margin-top: calc(100vh / 2 - 270px);
 }
 
 .wrapper {
@@ -11,13 +20,13 @@ html {
     height: 492px;
     margin: 0 auto;
     border: 16px groove #4c2005;
-    position: relative;
+    /*position: relative;*/
 }
 
 .wrapper .cell {
     background: url("img/bg.jpg");
     border: 8px solid transparent;
-    border-image: radial-gradient( #B7672F, #271104);
+    border-image: radial-gradient(#B7672F, #271104);
     cursor: pointer;
     float: left;
     font-size: 100px;
@@ -26,74 +35,102 @@ html {
     width: 148px;
 }
 
-.wrapper .cell.victory {
-    background-color: #e96e6e;
+.cell.cross,
+.cell.zero {
+    cursor: not-allowed;
 }
 
-.statistics {
-    font-weight: bold;
-    text-align: center;
+.cell.cross::before,
+.cell.cross::after {
+    background-image: url("img/crosszerobc.PNG");
+    border: 5px outset #DBC9AA;
 }
 
-.score {
-    text-align: center;
-    margin-bottom: 20px;
+.cell.zero::before {
+    background-image: url("img/crosszerobc.PNG");
+    border: 5px solid #DBC9AA;
 }
 
-.restart {
-    text-align: center;
-    padding-top: 20px;
+.block.cross .cell:not(.cross):not(.zero):hover::before,
+.block.cross .cell:not(.cross):not(.zero):hover::after,
+.block.zero .cell:not(.cross):not(.zero):hover::before {
+    background-image: url("img/crosszerobc.PNG");
 }
 
-.restart a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: brown;
-    color: #fff;
-}
-
-.rez_war {
-    background-color: brown;
-    padding: 50px 0;
+.cell.cross::before,
+.cell.cross::after,
+.block.cross .cell:not(.cross):not(.zero):hover::before,
+.block.cross .cell:not(.cross):not(.zero):hover::after {
+    content: '';
     position: absolute;
-    text-align: center;
-    top: 130px;
-    width: 100%;
-    display: none;
+    width: calc(var(--mark-size) * .15);
+    height: var(--mark-size);
 }
 
-.rez_war p {
-    color: #fff;
-    font-size: 66px;
-    font-weight: bold;
-    text-transform: uppercase;
+.cell.cross::before,
+.block.cross .cell:not(.cross):not(.zero):hover::before {
+    transform: rotate(45deg) translate(5px, 24px);
 }
 
-.rez_war_no {
-    background-color: darkolivegreen;
-    padding: 50px 0;
+.cell.cross::after,
+.block.cross .cell:not(.cross):not(.zero):hover::after {
+    transform: rotate(-45deg) translate(-24px, 5px);
+}
+
+.cell.zero::before,
+.cell.zero::after,
+.block.zero .cell:not(.cross):not(.zero):hover::before,
+.block.zero .cell:not(.cross):not(.zero):hover::after {
+    content: '';
     position: absolute;
-    text-align: center;
-    top: 130px;
-    width: 100%;
-    display: none;
+    border-radius: 100%;
 }
 
-.rez_text_no {
-    color: #fff;
-    font-size: 66px;
-    font-weight: bold;
-    text-transform: uppercase;
+.cell.zero::before,
+.block.zero .cell:not(.cross):not(.zero):hover::before {
+    width: var(--mark-size);
+    height: var(--mark-size);
+    transform: translate(-44px, 21px);
 }
 
-.victory {
-    text-align: center;
-    color: #fff;
-    background-color: brown;
-    padding: 30px 0;
-    font-size: 35px;
-    position: absolute;
-    width: 100%;
-    top: 39%;
+.cell.zero::after,
+.block.zero .cell:not(.cross):not(.zero):hover::after {
+    width: calc(var(--mark-size) * .7);
+    height: calc(var(--mark-size) * .7);
+    background-image: url("img/bg.jpg");
+    transform: translate(-31px, 34px);
+    border: 5px solid #DBC9AA;
+}
+
+.winning-message {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .9);
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+    flex-direction: column;
+}
+
+.winning-message button {
+    font-size: 3rem;
+    background-image: url("img/bg.jpg");
+    border: 5px outset #4c2005;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+.winning-message button:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+
+.winning-message.show {
+    display: flex;
 }

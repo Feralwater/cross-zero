@@ -8,10 +8,7 @@
 </head>
 <body>
 <div class="game-field">
-<!--    <div class="statistics"><p>Раунд <span>1</span></p></div>-->
-<!--    <div class="score">Компьютер <span class="num_c">0</span> - <span class="num_u">0</span> Игрок</div>-->
     <div class="wrapper">
-        <div class="victory">победа</div>
         <div id="block" class="block">
             <div class="cell"></div>
             <div class="cell"></div>
@@ -24,8 +21,9 @@
             <div class="cell"></div>
         </div>
     </div>
-    <div class="restart">
-        <a href="index.html">restart</a>
+    <div class="winning-message" id="winningMessage">
+        <div class="end-game-message"></div>
+        <button id="restartButton">Restart</button>
     </div>
 </div>
 </body>
