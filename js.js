@@ -33,8 +33,18 @@ function startGame() {
     winningMessageElement.classList.remove('show')
 }
 
-function handleClick(e) {
-    const cell = e.target
+
+function chooseSuitableCell() {
+    while (true) {
+        const index = Math.floor(Math.random() * 9);
+        const cellElement = cellElements[index];
+        if (!cellElement.classList.contains(ZERO_CLASS) && !cellElement.classList.contains(CROSS_CLASS)) {
+            return cellElement
+        }
+    }
+}
+
+function makeTurn(cell) {
     const currentClass = circleTurn ? ZERO_CLASS : CROSS_CLASS
     placeMark(cell, currentClass)
     if (checkWin(currentClass)) {
@@ -45,6 +55,17 @@ function handleClick(e) {
         swapTurns()
         setblockHoverClass()
     }
+}
+
+function handleClick(e) {
+    const userCell = e.target
+    makeTurn(userCell);
+    if (isDraw()) {
+        return
+    }
+    const compCell = chooseSuitableCell()
+    compCell.removeEventListener('click', handleClick)
+    makeTurn(compCell)
 }
 
 function endGame(draw) {
@@ -81,9 +102,14 @@ function setblockHoverClass() {
 }
 
 function checkWin(currentClass) {
-    return WINNING_COMBINATIONS.some(combination => {
-        return combination.every(index => {
-            return cellElements[index].classList.contains(currentClass)
-        })
-    })
+    let b2 = WINNING_COMBINATIONS.some(combination => {
+        let b1 = combination.every(index => {
+            let cellElement = cellElements[index];
+            let classList = cellElement.classList;
+            let b = classList.contains(currentClass);
+            return b
+        });
+        return b1
+    });
+    return b2
 }
